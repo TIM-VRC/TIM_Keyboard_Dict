@@ -8,8 +8,13 @@ VRChat ワールドギミック **【TIM】Keyboard** が実行時に取得す�
 | `ime_dict.bin` | 日本語 | ローマ字 → かな → 漢字 | [mozc](https://github.com/google/mozc) | BSD-3-Clause |
 | `ime_dict_zh_tw.bin` | 台灣華語 | 注音 → 繁體字 | [libchewing 詞庫](https://github.com/chewing/libchewing-data) | LGPL-2.1-or-later |
 | `ime_dict_zh_cn.bin` | 簡体中文 | 拼音 → 简体字 | [libpinyin](https://github.com/libpinyin/libpinyin) ほか | GPL-3.0 |
+| `ime_dict_en.bin` | 英語 | 入力予測（先頭数文字 → 単語） | [FrequencyWords](https://github.com/hermitdave/FrequencyWords) | MIT |
 
 韓国語は辞書が要りません（ハングルは初声・中声・終声から計算で組み立てられるため）。
+
+英語だけは「変換」ではなく**入力予測**です。読みを単語の先頭数文字にしてあるので、
+`hel` と打つと `help / hello / hell …` が候補に出ます。
+仕組みは他の言語とまったく同じで、実行時のコードも共通です。
 
 ## URL
 
@@ -20,6 +25,7 @@ VRChat ワールドギミック **【TIM】Keyboard** が実行時に取得す�
 https://raw.githubusercontent.com/TIM-VRC/TIM_Keyboard_Dict/main/ime_dict.bin
 https://raw.githubusercontent.com/TIM-VRC/TIM_Keyboard_Dict/main/ime_dict_zh_tw.bin
 https://raw.githubusercontent.com/TIM-VRC/TIM_Keyboard_Dict/main/ime_dict_zh_cn.bin
+https://raw.githubusercontent.com/TIM-VRC/TIM_Keyboard_Dict/main/ime_dict_en.bin
 ```
 
 GitHub は VRChat の信頼済みドメインなので、**プレイヤー側で
@@ -36,6 +42,8 @@ GitHub は VRChat の信頼済みドメインなので、**プレイヤー側で
     一部は android-pinyin-ime 由来で Apache-2.0）
   * 語の頻度: [rime-essay](https://github.com/rime/rime-essay)（LGPL-3.0）
   * 繁 → 簡 の字の対応: [OpenCC](https://github.com/BYVoid/OpenCC)（Apache-2.0）
+* 英語辞書 — Copyright (c) 2016 Hermit Dave（MIT）。OpenSubtitles の字幕から
+  数えた語の頻度表を元にしている。
 
 ライセンス全文は同じフォルダの `LICENSE-*.txt` にあります。
 
@@ -53,6 +61,9 @@ python build_dict_zh.py
 
 python build_dict_zh_cn.py --download  # 簡体中文（libpinyin ほか）
 python build_dict_zh_cn.py
+
+python build_dict_en.py --download     # 英語の入力予測（FrequencyWords）
+python build_dict_en.py
 ```
 
 `--download` が元データを取得し、2 回目の実行で `.bin` を作ります。
